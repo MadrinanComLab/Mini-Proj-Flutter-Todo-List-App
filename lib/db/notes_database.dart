@@ -18,7 +18,7 @@ class NotesDatabase {
   }
 
   Future<Database> _initDB (String filePath) async {
-    final dbPath = await getDatabasesPath(); // THIS IS AN EXAMPLE OF HOW TO DECLARE CONSTANT IN DART.
+    final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }
