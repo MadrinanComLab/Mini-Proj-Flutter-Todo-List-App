@@ -43,10 +43,35 @@ class NotesDatabase {
     );
   }
 
+  //=====================================================================================>>> SQLITE CREATE
   Future<Note> create(Note note) async {
     final db = await instance.database; // REFERENCE TO THE DATABASE
     final id = await db.insert(tableNotes, note.toJson());
     return note.copy(id: id);
+  }
+
+  //=====================================================================================>>> SQLITE READ (READING SINGLE RECORD)
+  Future<Note> readNote(int id) async {
+    final db = await instance.database; // REFERENCE TO THE DATABASE
+    final maps = await db.query(
+      tableNotes,
+      columns: NoteFields.values,
+      // where: "${ NoteFields.id } = $id" DO NOT USE THIS BECAUSE IT WAS NOT SECURE, IT DOES NOT PREVENT SQL INJECTIONS
+      where: "${ NoteFields.id } = ?", // INSTEAD USE THIS
+      whereArgs: [id]
+    );
+
+    // CHECK IF REQUEST IS SUCCESSFUL AND RETURNING SOME VALUE
+    if (maps.isNotEmpty) { return Note.fromJson(maps.first); } // WE'RE TRYING TO READ ONE RECORD ONLY
+    else { throw Exception("ID $id not found"); }
+  }
+
+  //=====================================================================================>>> SQLITE READ (READING MULTIPLE RECORD)
+  Future<List<Note>> readAllNotes() async {
+    final db = await instance.database; // REFERENCE TO THE DATABASE
+    const orderBy = "${ NoteFields.time } ASC";
+    final result = await db.query(tableNotes, orderBy: orderBy);
+    return result.map((json) => Note.fromJson(json)).toList();
   }
 
   Future close() async {
