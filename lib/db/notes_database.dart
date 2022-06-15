@@ -74,6 +74,18 @@ class NotesDatabase {
     return result.map((json) => Note.fromJson(json)).toList();
   }
 
+  //=====================================================================================>>> SQLITE UPDATE
+  Future<int> update (Note note) async {
+    final db = await instance.database; // REFERENCE TO THE DATABASE
+
+    return db.update(
+      tableNotes,
+      note.toJson(),
+      where: "${ NoteFields.id } = ?",
+      whereArgs: [ note.id ]
+    );
+  }
+
   Future close() async {
     final db = await instance.database;
     db.close();
