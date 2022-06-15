@@ -1,5 +1,6 @@
 import 'package:exp_flutter_sqlite_crud/db/notes_database.dart';
 import 'package:exp_flutter_sqlite_crud/model/note.dart';
+import 'package:exp_flutter_sqlite_crud/widget/note_form_widget.dart';
 import 'package:flutter/material.dart';
 
 class AddEditNotePage extends StatefulWidget {

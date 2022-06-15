@@ -5,6 +5,7 @@ import 'package:exp_flutter_sqlite_crud/widget/note_card_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:exp_flutter_sqlite_crud/page/note_detail_page.dart';
 
 class NotePage extends StatefulWidget {
   const NotePage({Key? key}) : super(key: key);
@@ -77,7 +78,7 @@ class _NotePageState extends State<NotePage> {
       return GestureDetector(
         onTap: () async {
           await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => MoreDetailPage(noteId: note.id)
+              builder: (context) => NoteDetailPage(noteId: note.id!)
           ));
 
           refreshNotes();
