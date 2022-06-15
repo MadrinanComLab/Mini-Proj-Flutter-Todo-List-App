@@ -24,7 +24,29 @@ class NotesDatabase {
   }
 
   Future _createDB (Database db, int version) async {
+    const idType = "INTEGER PRIMARY KEY AUTOINCREMENT";
+    const booleanType = "BOOLEAN NOT NULL";
+    const intType = "INTEGER NOT NULL";
+    const txtType = "TEXT NOT NULL";
 
+    await db.execute(
+        """
+        CREATE TABLE $tableNotes (
+          ${ NoteFields.id } $idType,
+          ${ NoteFields.isImportant } $booleanType,
+          ${ NoteFields.number } $intType,
+          ${ NoteFields.title } $txtType,
+          ${ NoteFields.description } $txtType,
+          ${ NoteFields.time } $txtType
+        )
+        """
+    );
+  }
+
+  Future<Note> create(Note note) async {
+    final db = await instance.database; // REFERENCE TO THE DATABASE
+    final id = await db.insert(tableNotes, note.toJson());
+    return note.copy(id: id);
   }
 
   Future close() async {
