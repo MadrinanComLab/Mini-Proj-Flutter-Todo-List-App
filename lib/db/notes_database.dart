@@ -86,6 +86,17 @@ class NotesDatabase {
     );
   }
 
+  //=====================================================================================>>> SQLITE DELETE
+  Future<int> delete (int id) async {
+    final db = await instance.database; // REFERENCE TO THE DATABASE
+
+    return await db.delete(
+      tableNotes,
+      where: "${ NoteFields.id } = ?",
+      whereArgs: [ id ]
+    );
+  }
+
   Future close() async {
     final db = await instance.database;
     db.close();
