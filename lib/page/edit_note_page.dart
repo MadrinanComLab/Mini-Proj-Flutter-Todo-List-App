@@ -75,7 +75,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
 
     if (isValid) {
       final isUpdating = widget.note != null;
-      if (isUpdating) { updateNote(); }
+      if (isUpdating) { await updateNote(); }
       else { await addNote(); }
       Navigator.of(context).pop();
     }

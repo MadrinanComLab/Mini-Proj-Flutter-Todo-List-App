@@ -14,6 +14,7 @@ class NotesDatabase {
 
     // IF NOT, THEN INITIALIZED IT
     _database = await _initDB("notes.db");
+    print(">>> DATABASE WAS INITIALIZED");
     return _database!;
   }
 
@@ -41,12 +42,14 @@ class NotesDatabase {
         )
         """
     );
+    print(">>> DATABASE WAS CREATED");
   }
 
   //=====================================================================================>>> SQLITE CREATE
   Future<Note> create(Note note) async {
     final db = await instance.database; // REFERENCE TO THE DATABASE
     final id = await db.insert(tableNotes, note.toJson());
+    print(">>> SQLITE CREATE FUNCTION WAS CALLED");
     return note.copy(id: id);
   }
 
@@ -61,6 +64,8 @@ class NotesDatabase {
       whereArgs: [id]
     );
 
+    print(">>> SQLITE READ (ONE RECORD) FUNCTION WAS CALLED");
+
     // CHECK IF REQUEST IS SUCCESSFUL AND RETURNING SOME VALUE
     if (maps.isNotEmpty) { return Note.fromJson(maps.first); } // WE'RE TRYING TO READ ONE RECORD ONLY
     else { throw Exception("ID $id not found"); }
@@ -71,6 +76,7 @@ class NotesDatabase {
     final db = await instance.database; // REFERENCE TO THE DATABASE
     const orderBy = "${ NoteFields.time } ASC";
     final result = await db.query(tableNotes, orderBy: orderBy);
+    print(">>> SQLITE READ (MULTIPLE RECORD) FUNCTION WAS CALLED");
     return result.map((json) => Note.fromJson(json)).toList();
   }
 
@@ -78,6 +84,7 @@ class NotesDatabase {
   Future<int> update (Note note) async {
     final db = await instance.database; // REFERENCE TO THE DATABASE
 
+    print(">>> SQLITE UDPATE FUNCTION WAS CALLED");
     return db.update(
       tableNotes,
       note.toJson(),
@@ -90,6 +97,7 @@ class NotesDatabase {
   Future<int> delete (int id) async {
     final db = await instance.database; // REFERENCE TO THE DATABASE
 
+    print(">>> SQLITE DELETE FUNCTION WAS CALLED");
     return await db.delete(
       tableNotes,
       where: "${ NoteFields.id } = ?",

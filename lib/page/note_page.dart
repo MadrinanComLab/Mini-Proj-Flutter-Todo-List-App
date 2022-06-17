@@ -35,11 +35,20 @@ class _NotePageState extends State<NotePage> {
   Future refreshNotes() async {
     setState(() => isLoading = true);
     this.notes = await NotesDatabase.instance.readAllNotes();
-    setState(() => false);
+    setState(() => isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
+    /* print(">>> note_page.dart: " + (isLoading
+        ? CircularProgressIndicator()
+        : notes.isEmpty
+        ? Text(
+        "No Notes",
+        style: TextStyle(color: Colors.white, fontSize: 24.0))
+        : buildNotes()).toString()
+    ); */
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Notes", style: TextStyle(fontSize: 24.0)),
@@ -47,8 +56,18 @@ class _NotePageState extends State<NotePage> {
       ),
 
       body: Center(
-        child: isLoading ?
-          CircularProgressIndicator() : notes.isEmpty ? Text("No Notes", style: TextStyle(color: Colors.white)) : buildNotes(),
+        /* child: notes.isEmpty
+            ? Text(
+            "No Notes",
+            style: TextStyle(color: Colors.white, fontSize: 24.0))
+            : buildNotes(), */
+        child: isLoading
+            ? CircularProgressIndicator()
+            : notes.isEmpty
+            ? Text(
+              "No Notes",
+              style: TextStyle(color: Colors.white, fontSize: 24.0))
+            : buildNotes(), /* */
       ),
 
       floatingActionButton: FloatingActionButton(
