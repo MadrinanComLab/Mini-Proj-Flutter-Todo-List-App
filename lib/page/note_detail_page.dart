@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:exp_flutter_sqlite_crud/db/notes_database.dart';
 import 'package:exp_flutter_sqlite_crud/model/note.dart';
 import 'package:exp_flutter_sqlite_crud/page/edit_note_page.dart';
@@ -39,39 +38,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(actions: [ editButton(), deleteButton() ]),
-      body:
-      /* Padding(
-        padding: EdgeInsets.all(12.0),
-        child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          children: [
-            Text(
-              notes.title,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
-
-            SizedBox(height: 8.0),
-
-            Text(
-              DateFormat.yMMMd().format(notes.createdTime),
-              style: TextStyle(color: Colors.white38),
-            ),
-
-            SizedBox(height: 8.0),
-
-            Text(
-              notes.description,
-              style: TextStyle(color: Colors.white70, fontSize: 18.0),
-            )
-          ],
-        ),
-      ) */
-
-      isLoading
+      body: isLoading
           ?  Center(child: CircularProgressIndicator())
           : Padding(
         padding: EdgeInsets.all(12.0),
@@ -102,7 +69,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
             )
           ],
         ),
-      ), /* */
+      ),
     );
   }
 
